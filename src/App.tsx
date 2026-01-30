@@ -353,7 +353,9 @@ export default function App() {
     }
   }
 
+
   const handleHeight = (_id: number, height: number) => {
+
     if (height <= maxHeightRef.current) return
     maxHeightRef.current = height
     setMaxHeight(height)
