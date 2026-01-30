@@ -435,7 +435,7 @@ export default function App() {
         <CameraRig />
         <ambientLight intensity={0.6} />
         <directionalLight position={[10, 15, 5]} intensity={0.9} />
-        <Physics gravity={[0, -9.81, 0]}>
+        <Physics gravity={[0, -20, 0]}>
           <Floor
             onDrop={handleDrop}
             onHover={(point) => setHoverPoint(snapToGrid(point))}
