@@ -319,6 +319,11 @@ export default function App() {
     const saved = localStorage.getItem('playerColor')
     return saved && saved.trim() ? saved : PALETTE[0]
   })
+  const [hudOpen, setHudOpen] = useState(true)
+  const [panelOpen, setPanelOpen] = useState(true)
+  const [hintHidden, setHintHidden] = useState(() => {
+    return localStorage.getItem('hintHidden') === 'true'
+  })
 
   const snapToGrid = (point: THREE.Vector3) =>
     new THREE.Vector3(
@@ -472,7 +477,7 @@ export default function App() {
           <Preview point={hoverPoint} size={size} thickness={thickness} type={blockType} />
         </Physics>
       </Canvas>
-      <div className="hud">
+      <div className={`hud ${hudOpen ? 'open' : 'closed'}`}>
         <div>닉네임: {nickname || 'guest'}</div>
         <div>모드: {mode === 'time-attack' ? '타임어택' : '이벤트 라운드'}</div>
         <div>남은 시간: {timeLeft}s</div>
@@ -491,7 +496,15 @@ export default function App() {
           블록 초기화
         </button>
       </div>
-      <div className="panel">
+      <div className="board-toggles">
+        <button type="button" onClick={() => setHudOpen((prev) => !prev)}>
+          {hudOpen ? 'HUD 닫기' : 'HUD 열기'}
+        </button>
+        <button type="button" onClick={() => setPanelOpen((prev) => !prev)}>
+          {panelOpen ? '설정 닫기' : '설정 열기'}
+        </button>
+      </div>
+      <div className={`panel ${panelOpen ? 'open' : 'closed'}`}>
         <div className="panel-title">블록 설정</div>
         <div className="panel-section">
           <div className="panel-label">내 색상</div>
@@ -645,12 +658,25 @@ export default function App() {
           <span className="panel-value">{cameraDistance}</span>
         </label>
       </div>
-      <div className="hint">바닥 클릭으로 생성, 우클릭으로 블록 삭제.</div>
+      {!hintHidden && (
+        <div className="hint hint-right">
+          <span>좌클릭으로 생성</span>
+          <button
+            type="button"
+            className="hint-close"
+            onClick={() => {
+              localStorage.setItem('hintHidden', 'true')
+              setHintHidden(true)
+            }}
+          >
+            ✕
+          </button>
+        </div>
+      )}
       {!nicknameReady && (
         <div className="overlay">
           <div className="modal">
             <div className="modal-title">닉네임 설정</div>
-            <p className="modal-text">슬리더.io처럼 닉네임만 입력하고 시작합니다.</p>
             <input
               type="text"
               placeholder="닉네임 입력"

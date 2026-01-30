@@ -44,6 +44,22 @@ body {
   border-radius: 10px;
   font-size: 14px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hint-right {
+  left: auto;
+  right: 24px;
+}
+
+.hint-close {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
 }
 
 .panel {
@@ -59,6 +75,7 @@ body {
   background: rgba(255, 255, 255, 0.96);
   box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
   font-size: 13px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
 .panel-title {
@@ -136,6 +153,7 @@ body {
   background: rgba(255, 255, 255, 0.95);
   box-shadow: 0 12px 26px rgba(15, 23, 42, 0.18);
   font-size: 12px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
 .hud button {
@@ -145,6 +163,49 @@ body {
   padding: 6px 10px;
   border-radius: 8px;
   cursor: pointer;
+}
+
+.board-toggles {
+  position: absolute;
+  left: 24px;
+  bottom: 24px;
+  display: flex;
+  gap: 8px;
+  z-index: 5;
+}
+
+.board-toggles button {
+  border: none;
+  background: #1f2933;
+  color: #fff;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.hud.closed,
+.panel.closed {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+}
+
+.panel.closed {
+  transform: translateY(-8px);
+}
+
+@media (max-width: 768px) {
+  .hud,
+  .panel {
+    max-width: 80vw;
+  }
+
+  .board-toggles {
+    left: 16px;
+    bottom: 16px;
+    flex-direction: column;
+  }
 }
 
 .overlay {
